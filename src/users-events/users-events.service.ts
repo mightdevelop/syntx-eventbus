@@ -1,58 +1,123 @@
 import { Injectable } from '@nestjs/common'
-import {
-    SearchUsersEvent,
-    User,
-    Void,
-} from './users-events.pb'
 import { EntitiesCacheService } from 'src/cache/entities-cache.service'
+import { InjectModel } from '@nestjs/mongoose'
+import { Event, EventDocument } from 'src/event.schema'
+import { Model } from 'mongoose'
+import { Empty } from 'src/pb/google/protobuf/empty.pb'
+import { EventStatus } from 'src/types/event-status.enum'
+import { SearchUsersEvent, UserEvent } from 'src/pb/users-events.pb'
 
 
 @Injectable()
 export class UsersEventsService {
 
-    private entitiesCacheService: EntitiesCacheService
+    constructor(
+        @InjectModel(Event.name)
+        private userEventModel: Model<EventDocument>,
+        private entitiesCacheService: EntitiesCacheService,
+    ) {}
 
-    public async onGetUserByIdEvent(user: User): Promise<Void> {
-        await this.entitiesCacheService.setEntityByKey({
-            entityKey: {
-                entityName: 'User',
-                entityId: user.id,
-            },
-            jsonData: JSON.stringify(user),
+
+    public async onGetUserByIdEvent(
+        { error, user }: UserEvent
+    ): Promise<Empty> {
+        if (error) {
+            this.userEventModel.create({
+                name: 'getUserByIdEvent',
+                status: EventStatus.ERROR,
+                data: JSON.stringify(user),
+                error,
+            })
+            return {}
+        }
+        this.entitiesCacheService.sendEntityToCacheAndStoreCacheEvent(user, 'User')
+        this.userEventModel.create({
+            name: 'getUserByIdEvent',
+            status: EventStatus.SUCCESS,
+            data: JSON.stringify(user),
         })
         return {}
     }
 
-    public async onSearchUsersEvent(dto: SearchUsersEvent): Promise<Void> {
-        return {}
-    }
-
-    public async onCreateUserEvent(user: User): Promise<Void> {
-        await this.entitiesCacheService.setEntityByKey({
-            entityKey: {
-                entityName: 'User',
-                entityId: user.id,
-            },
-            jsonData: JSON.stringify(user),
+    public async onSearchUsersEvent(
+        { error, users, searchParams }: SearchUsersEvent
+    ): Promise<Empty> {
+        if (error) {
+            this.userEventModel.create({
+                name: 'searchUsersEvent',
+                status: EventStatus.ERROR,
+                data: JSON.stringify({ users, searchParams }),
+                error,
+            })
+            return {}
+        }
+        this.userEventModel.create({
+            name: 'searchUsersEvent',
+            status: EventStatus.SUCCESS,
+            data: JSON.stringify({ users, searchParams }),
         })
         return {}
     }
 
-    public async onUpdateUserEvent(user: User): Promise<Void> {
-        await this.entitiesCacheService.setEntityByKey({
-            entityKey: {
-                entityName: 'User',
-                entityId: user.id,
-            },
-            jsonData: JSON.stringify(user),
+    public async onCreateUserEvent(
+        { error, user }: UserEvent
+    ): Promise<Empty> {
+        if (error) {
+            this.userEventModel.create({
+                name: 'createUserEvent',
+                status: EventStatus.ERROR,
+                data: JSON.stringify(user),
+                error,
+            })
+            return {}
+        }
+        this.entitiesCacheService.sendEntityToCacheAndStoreCacheEvent(user, 'User')
+        this.userEventModel.create({
+            name: 'createUserEvent',
+            status: EventStatus.SUCCESS,
+            data: JSON.stringify(user),
         })
         return {}
     }
 
-    public async onDeleteUserEvent(user: User): Promise<Void> {
-        await this.entitiesCacheService.delEntityByKey({
-            entityName: 'User',
-            entityId: user.id,
+    public async onUpdateUserEvent(
+        { error, user }: UserEvent
+    ): Promise<Empty> {
+        if (error) {
+            this.userEventModel.create({
+                name: 'updateUserEvent',
+                status: EventStatus.ERROR,
+                data: JSON.stringify(user),
+                error,
+            })
+            return {}
+        }
+        this.entitiesCacheService.sendEntityToCacheAndStoreCacheEvent(user, 'User')
+        this.userEventModel.create({
+            name: 'updateUserEvent',
+            status: EventStatus.SUCCESS,
+            data: JSON.stringify(user),
+        })
+        return {}
+    }
+
+    public async onDeleteUserEvent(
+        { error, user }: UserEvent
+    ): Promise<Empty> {
+        if (error) {
+            this.userEventModel.create({
+                name: 'deleteUserEvent',
+                status: EventStatus.ERROR,
+                data: JSON.stringify(user),
+                error,
+            })
+            return {}
+        }
+        this.entitiesCacheService.sendEntityToCacheAndStoreCacheEvent(user, 'User')
+        this.userEventModel.create({
+            name: 'deleteUserEvent',
+            status: EventStatus.SUCCESS,
+            data: JSON.stringify(user),
         })
         return {}
     }

@@ -12,7 +12,7 @@ async function bootstrap() {
             options: {
                 url: process.env.APP_URL,
                 package: EVENTBUS_PACKAGE_NAME,
-                protoPath: join(__dirname, '..', 'node_modules', 'syntx-protos', 'eventbus', 'users-events.proto'),
+                protoPath: join(__dirname, '..', 'node_modules', 'syntx-protos', 'eventbus', 'eventbus.proto'),
                 loader: {
                     includeDirs: [ join(__dirname, '..', 'node_modules', 'syntx-protos', 'eventbus') ],
                 },

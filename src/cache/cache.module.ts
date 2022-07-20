@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common'
 import { ClientsModule, Transport } from '@nestjs/microservices'
+import { MongooseModule } from '@nestjs/mongoose'
 import 'dotenv/config'
 import { join } from 'path'
+import { Event, EventSchema } from 'src/event.schema'
 import { CACHE_PACKAGE_NAME } from './cache.pb'
 import { EntitiesCacheService } from './entities-cache.service'
 
@@ -20,6 +22,7 @@ import { EntitiesCacheService } from './entities-cache.service'
                 }
             }
         ]),
+        MongooseModule.forFeature([ { name: Event.name, schema: EventSchema, collection: 'events' } ]),
     ],
     providers: [ EntitiesCacheService ],
     exports: [ EntitiesCacheService ],
