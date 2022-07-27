@@ -6,6 +6,7 @@ import { join } from 'path'
 import { Event, EventSchema } from 'src/event.schema'
 import { CACHE_PACKAGE_NAME } from './cache.pb'
 import { EntitiesCacheService } from './entities-cache.service'
+import { PermissionsCacheService } from './permissions-cache.service'
 
 @Module({
     imports: [
@@ -24,7 +25,13 @@ import { EntitiesCacheService } from './entities-cache.service'
         ]),
         MongooseModule.forFeature([ { name: Event.name, schema: EventSchema, collection: 'events' } ]),
     ],
-    providers: [ EntitiesCacheService ],
-    exports: [ EntitiesCacheService ],
+    providers: [
+        EntitiesCacheService,
+        PermissionsCacheService,
+    ],
+    exports: [
+        EntitiesCacheService,
+        PermissionsCacheService,
+    ],
 })
 export class CacheModule {}

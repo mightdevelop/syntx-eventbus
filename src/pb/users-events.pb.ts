@@ -3,14 +3,10 @@ import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import Long from "long";
 import * as _m0 from "protobufjs/minimal";
 import { Observable } from "rxjs";
+import { Error } from "./common.pb";
 import { Empty } from "./google/protobuf/empty.pb";
 
 export const protobufPackage = "eventbus";
-
-export interface Error {
-  code: number;
-  message: string;
-}
 
 export interface User {
   id?: string | undefined;

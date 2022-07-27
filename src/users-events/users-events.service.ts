@@ -23,7 +23,7 @@ export class UsersEventsService {
     ): Promise<Empty> {
         if (error) {
             this.userEventModel.create({
-                name: 'getUserByIdEvent',
+                name: 'getUserById',
                 status: EventStatus.ERROR,
                 data: JSON.stringify(user),
                 error,
@@ -32,7 +32,7 @@ export class UsersEventsService {
         }
         this.entitiesCacheService.sendEntityToCacheAndStoreCacheEvent(user, 'User')
         this.userEventModel.create({
-            name: 'getUserByIdEvent',
+            name: 'getUserById',
             status: EventStatus.SUCCESS,
             data: JSON.stringify(user),
         })
@@ -44,7 +44,7 @@ export class UsersEventsService {
     ): Promise<Empty> {
         if (error) {
             this.userEventModel.create({
-                name: 'searchUsersEvent',
+                name: 'searchUsers',
                 status: EventStatus.ERROR,
                 data: JSON.stringify({ users, searchParams }),
                 error,
@@ -52,7 +52,7 @@ export class UsersEventsService {
             return {}
         }
         this.userEventModel.create({
-            name: 'searchUsersEvent',
+            name: 'searchUsers',
             status: EventStatus.SUCCESS,
             data: JSON.stringify({ users, searchParams }),
         })
@@ -64,7 +64,7 @@ export class UsersEventsService {
     ): Promise<Empty> {
         if (error) {
             this.userEventModel.create({
-                name: 'createUserEvent',
+                name: 'createUser',
                 status: EventStatus.ERROR,
                 data: JSON.stringify(user),
                 error,
@@ -73,7 +73,7 @@ export class UsersEventsService {
         }
         this.entitiesCacheService.sendEntityToCacheAndStoreCacheEvent(user, 'User')
         this.userEventModel.create({
-            name: 'createUserEvent',
+            name: 'createUser',
             status: EventStatus.SUCCESS,
             data: JSON.stringify(user),
         })
@@ -85,7 +85,7 @@ export class UsersEventsService {
     ): Promise<Empty> {
         if (error) {
             this.userEventModel.create({
-                name: 'updateUserEvent',
+                name: 'updateUser',
                 status: EventStatus.ERROR,
                 data: JSON.stringify(user),
                 error,
@@ -94,7 +94,7 @@ export class UsersEventsService {
         }
         this.entitiesCacheService.sendEntityToCacheAndStoreCacheEvent(user, 'User')
         this.userEventModel.create({
-            name: 'updateUserEvent',
+            name: 'updateUser',
             status: EventStatus.SUCCESS,
             data: JSON.stringify(user),
         })
@@ -106,16 +106,15 @@ export class UsersEventsService {
     ): Promise<Empty> {
         if (error) {
             this.userEventModel.create({
-                name: 'deleteUserEvent',
+                name: 'deleteUser',
                 status: EventStatus.ERROR,
                 data: JSON.stringify(user),
                 error,
             })
             return {}
         }
-        this.entitiesCacheService.sendEntityToCacheAndStoreCacheEvent(user, 'User')
         this.userEventModel.create({
-            name: 'deleteUserEvent',
+            name: 'deleteUser',
             status: EventStatus.SUCCESS,
             data: JSON.stringify(user),
         })
