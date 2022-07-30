@@ -4,6 +4,7 @@ import 'dotenv/config'
 import { UsersEventsModule } from './users-events/users-events.module'
 import { RolesEventsModule } from './roles-events/roles-events.module'
 import { MongooseModule } from '@nestjs/mongoose'
+import { IssuesEventsModule } from './issues-events/issues-events.module'
 
 @Module({
     imports: [
@@ -19,6 +20,7 @@ import { MongooseModule } from '@nestjs/mongoose'
         }),
         UsersEventsModule,
         RolesEventsModule,
+        IssuesEventsModule,
     ],
 })
 export class EventBusModule {}

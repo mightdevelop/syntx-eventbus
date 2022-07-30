@@ -113,6 +113,7 @@ export class UsersEventsService {
             })
             return {}
         }
+        this.entitiesCacheService.removeEntityFromCacheAndStoreEvent(user, 'User')
         this.userEventModel.create({
             name: 'deleteUser',
             status: EventStatus.SUCCESS,

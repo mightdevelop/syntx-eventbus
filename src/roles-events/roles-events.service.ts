@@ -81,6 +81,7 @@ export class RolesEventsService {
     public async onDeleteRoleEvent(
         { error, role }: RoleEvent
     ): Promise<Empty> {
+        this.entitiesCacheService.removeEntityFromCacheAndStoreEvent(role, 'Role')
         this.roleEventModel.create({
             name: 'deleteRole',
             status: error ? EventStatus.ERROR : EventStatus.SUCCESS,
